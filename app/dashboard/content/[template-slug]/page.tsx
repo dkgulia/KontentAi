@@ -68,21 +68,28 @@ function CreateNewContent(props: PROPS) {
                 </button>
             </Link>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5">
-                {/* Form section (left, 30%) */}
-                <div className="md:col-span-1">
-                    <FormSection
-                        selectedTemplates={selectedTemplates}
-                        userFormInput={(v: any) => GenerateAIContent(v)}
-                        loading={loading}
-                    />
-                </div>
-                
-                {/* Output section (right, 70%) */}
-                <div className="md:col-span-2">
-                    <OutputSection aiOutput={aiOutput}/>
-                </div>
+            <div className="grid grid-cols-1 md:grid-cols-10 gap-5 py-5">
+    {/* Form section (left, 30%) */}
+    <div className="col-span-1 md:col-span-3">
+        <FormSection
+            selectedTemplates={selectedTemplates}
+            userFormInput={(v: any) => GenerateAIContent(v)}
+            loading={loading}
+        />
+    </div>
+    
+    {/* Output section (right, 70%) */}
+    <div className="col-span-1 md:col-span-7">
+        <div className="bg-gray-100 p-5 rounded-md shadow">
+            <div className="flex justify-between items-center mb-3">
+                <h2 className="text-lg font-semibold">Your Result</h2>
+                <button className="text-blue-500 hover:text-blue-700">Copy</button>
             </div>
+            <OutputSection aiOutput={aiOutput}/>
+        </div>
+    </div>
+</div>
+
         </div>
     );
 }

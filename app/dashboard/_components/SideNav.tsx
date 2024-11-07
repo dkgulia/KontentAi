@@ -3,6 +3,7 @@ import React,{ useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import { FileClock, Home, Settings, Wallet } from 'lucide-react'
+import UsageTrack from '@/app/dashboard/_components/UsageTrack'
 function SideNav() {
 
   const MenuList=[
@@ -30,6 +31,9 @@ function SideNav() {
             <h2>{menu.name}</h2>
           </div>
         ))}
+      </div>
+      <div>
+        <UsageTrack/>
       </div>
     </div>
   )

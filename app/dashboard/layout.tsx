@@ -1,22 +1,40 @@
-import React from 'react'
+"use client"
+import React, { useState } from 'react'
 import SideNav from './_components/SideNav';
 import Header from './_components/Header';
+import { TotalUsageContext } from '../(context)/TotalUsageContext';
+
+import { UpdateCreditUsageContext } from '../(context)/UpdateCreditUsageContext';
+
 function layout({
     children,
   }: Readonly<{
     children: React.ReactNode;
   }>) {
+
+    const [totalUsage,setTotalUsage]=useState<Number>(0);
+    
+    const [updateCreditUsage,setUpdateCreditUsage]=useState<any>()
+
   return (
-    <div>
-        <div className='md:w-64  hidden md:block fixed'>
-          <SideNav/>
+    <TotalUsageContext.Provider value={{totalUsage,setTotalUsage}}>
+    
+        <UpdateCreditUsageContext.Provider value={{updateCreditUsage,setUpdateCreditUsage}}>
+    <div className='bg-slate-100 min-h-screen'>
+        <div className='md:w-64 hidden md:block fixed'>
+            <SideNav/>
         </div>
-        
         <div className='md:ml-64'>
-        <Header/>
+          <Header/>
         {children}
         </div>
+      <div>
+      <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="tubegurujiw" data-description="Support me on Buy me a coffee!" data-message="You can buy me coffee , If you like this app" data-color="#BD5FFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+      </div>
     </div>
+    </UpdateCreditUsageContext.Provider>
+    
+    </TotalUsageContext.Provider>
   )
 }
 

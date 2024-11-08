@@ -2,7 +2,7 @@ import React from 'react'
 import {Search} from 'lucide-react'
 function SearchSection({onSearchInput}:any) {
   return (
-    <div className='p-10 bg-gradient-to-br from-purple-500 via-purple to-blue-600 flex flex-col justify-center items-center'>
+    <div className='p-10 bg-customDark text-white flex flex-col justify-center items-center'>
         <h1 className='text-4xl font-bold'>Browse Templates</h1>
         <p>What would you like to create today?</p>
         <div className='w-full '>

@@ -30,7 +30,7 @@ function FormSection({ selectedTemplates,userFormInput,loading }: props) {
     }
 
   return (
-    <div className="p-5 shadow-md border rounded-lg ">
+    <div className="p-5 shadow-md border rounded-lg bg-customDark text-white ">
       <Image src={selectedTemplates?.icon} alt="icon" width={70} height={70} />
       <h2 className="font-bold text-2xl mb-2 text-primary">
         {selectedTemplates?.name}

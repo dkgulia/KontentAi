@@ -1,22 +1,62 @@
-// UsageTrack.tsx
-import React from 'react'
+import { db } from '@/utils/db';
+import { AIOutput } from '@/utils/schema';
+import { useUser } from '@clerk/nextjs';
 import { Button } from '@/components/ui/button'
+import { eq } from 'drizzle-orm';
+import React, { useContext ,useEffect} from 'react'
+import { HISTORY } from '../history/page';
+import { TotalUsageContext } from '@/app/(context)/TotalUsageContext';
 
-function UsageTrack() {
+
+ function UsageTrack() {
+
+    const {user}=useUser();
+    const {totalUsage,setTotalUsage}=useContext(TotalUsageContext)
+    
+   
+   
+    useEffect(()=>{
+      user&&GetData();
+  },[user]);
+
+
+    
+    const GetData=async()=>{
+         {/* @ts-ignore */}
+        const result:HISTORY[]=await db.select().from(AIOutput).where(eq(AIOutput.createdBy,user?.primaryEmailAddress?.emailAddress));
+        
+        GetTotalUsage(result)
+    }
+
+  
+
+
+
+    const GetTotalUsage=(result:HISTORY[])=>{
+        let total:number=0;
+        result.forEach(element => {
+            total=total+Number(element.aiResponse?.length) 
+        });
+
+        setTotalUsage(total)
+        console.log(total);
+    }
+
+
   return (
-    <div className="mt-8 p-4 border-t border-gray-200">
-      <div className="flex flex-col items-start gap-2">
-        <h2 className="text-lg font-semibold">Credits</h2>
-        <div className="w-full h-2 bg-gray-200 rounded-full mt-2">
-          <div className="h-full bg-primary rounded-full" style={{ width: '35%' }}></div>
+    <div className='m-5'>
+        <div className='bg-primary text-white p-3 rounded-lg'>
+            <h2 className='font-medium'>Credits</h2>
+            <div className='h-2 bg-[#9981f9] w-full rounded-full mt-3'>
+                <div className='h-2 bg-white rounded-full'
+                style={{
+                    width:totalUsage/100000>1?100+"%":(totalUsage/100000)*100+"%"
+                }}
+                ></div>
+            </div>
+            <h2 className='text-sm my-2'>{totalUsage}/100000 credit used</h2>
         </div>
-        <span className="text-sm text-gray-600">350/10,000 credits used</span>
-      </div>
-      <div className="mt-4">
-        <Button className="w-full text-sm py-2 bg-primary hover:bg-primary-dark text-white rounded-md">
-          Upgrade
-        </Button>
-      </div>
+        <Button variant={'secondary'} className='w-full my-3 text-primary'>Upgrade</Button>
     </div>
   )
 }

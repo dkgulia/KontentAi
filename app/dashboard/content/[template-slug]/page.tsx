@@ -38,6 +38,7 @@ function CreateNewContent(props: PROPS) {
   }, [props.params]);
 
   const GenerateAIContent = async (formData: any) => {
+   
     setLoading(true);
     const SelectedPrompt = selectedTemplates?.aiPrompt;
     const FinalAIPrompt = JSON.stringify(formData) + "," + SelectedPrompt;
@@ -76,9 +77,9 @@ function CreateNewContent(props: PROPS) {
         </button>
       </Link>
 
-      <div className="grid grid-cols-1 md:grid-cols-10 gap-5 py-5">
+      <div className="grid grid-cols-1 md:grid-cols-10 gap-5 py-5  text-black">
         {/* Form section (left, 30%) */}
-        <div className="col-span-1 md:col-span-3 bg-customDark text-white">
+        <div className="col-span-1 md:col-span-3 bg-customDark">
           <FormSection
             selectedTemplates={selectedTemplates}
             userFormInput={(v: any) => GenerateAIContent(v)}

@@ -25,7 +25,7 @@ function SideNav() {
             path:'/dashboard/billing'
         },
         {
-            name:'Setting',
+            name:'Settings',
             icon:Settings,
             path:'/dashboard/settings'
         },

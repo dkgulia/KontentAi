@@ -42,11 +42,11 @@ function FormSection({ selectedTemplates,userFormInput,loading }: props) {
           <div className="my-2 flex flex-col gap-2 mb-2">
             <label className="font-bold">{item.label}</label>
             {item.field == "input" ? (
-              <Input name={item.name} required={item?.required}
+              <Input className="text-black" name={item.name} required={item?.required}
               onChange={HandleInputChange}
               />
             ) : item.field == "textarea" ? (
-              <Textarea name={item.name} required={item?.required}
+              <Textarea className="text-black"name={item.name} required={item?.required}
               onChange={HandleInputChange}/>
             ) : null}
           </div>

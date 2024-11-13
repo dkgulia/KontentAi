@@ -12,33 +12,23 @@ import { useUser } from "@clerk/clerk-react";
 import { db } from "@/utils/db";
 
 interface PROPS {
-  params: Promise<{
+  params: {
     "template-slug": string;
-  }>;
-  slug: string;
+  };
 }
 
-function CreateNewContent(props: PROPS) {
-  const [selectedTemplates, setSelectedTemplates] = useState<
-    TEMPLATE | undefined
-  >(undefined);
+function CreateNewContent({ params }: PROPS) {
+  const [selectedTemplates, setSelectedTemplates] = useState<TEMPLATE | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const [aiOutput, setAiOutput] = useState<string>("");
   const { user } = useUser();
 
   useEffect(() => {
-    const fetchParams = async () => {
-      const resolvedParams = await props.params;
-      const template = Templates?.find(
-        (item) => item.slug === resolvedParams["template-slug"]
-      );
-      setSelectedTemplates(template);
-    };
-    fetchParams();
-  }, [props.params]);
+    const template = Templates.find((item) => item.slug === params["template-slug"]);
+    setSelectedTemplates(template);
+  }, [params]);
 
   const GenerateAIContent = async (formData: any) => {
-   
     setLoading(true);
     const SelectedPrompt = selectedTemplates?.aiPrompt;
     const FinalAIPrompt = JSON.stringify(formData) + "," + SelectedPrompt;
@@ -47,17 +37,13 @@ function CreateNewContent(props: PROPS) {
 
     console.log(result.response.text());
     setAiOutput(result.response?.text());
-    await SaveInDb(
-      JSON.stringify(formData),
-      selectedTemplates?.slug,
-      result.response.text()
-    );
+    await SaveInDb(JSON.stringify(formData), selectedTemplates?.slug, result.response.text());
     setLoading(false);
   };
 
   const SaveInDb = async (formData: any, slug: any, aiResp: string) => {
     const result = await db.insert(AIOutput).values({
-      formData: formData,
+      formData,
       templateSlug: slug,
       aiResponse: aiResp,
       createdBy: user?.primaryEmailAddress?.emailAddress,
@@ -77,7 +63,7 @@ function CreateNewContent(props: PROPS) {
         </button>
       </Link>
 
-      <div className="grid grid-cols-1 md:grid-cols-10 gap-5 py-5  text-black">
+      <div className="grid grid-cols-1 md:grid-cols-10 gap-5 py-5 text-black">
         {/* Form section (left, 30%) */}
         <div className="col-span-1 md:col-span-3 bg-customDark">
           <FormSection
@@ -89,8 +75,7 @@ function CreateNewContent(props: PROPS) {
 
         {/* Output section (right, 70%) */}
         <div className="col-span-1 md:col-span-7 bg-customDark text-white p-5">
-          <div className="  rounded-md shadow">
-            <div className="flex justify-between items-center mb-3"></div>
+          <div className="rounded-md shadow">
             <OutputSection aiOutput={aiOutput} />
           </div>
         </div>
